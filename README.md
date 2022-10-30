@@ -1,4 +1,4 @@
 # buildspace Solana GIF Portal Project
 
 ### **Welcome 👋**
-This is a frontend to interact with Solana blockchain.
+This is rust code to interact with Solana blockchain. 

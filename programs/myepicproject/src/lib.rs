@@ -18,10 +18,22 @@ pub mod myepicproject {
         let item = ItemStruct {
             gif_link: gif_link.to_string(),
             user_address: *user.to_account_info().key,
+            votes: 0,
         };
 
         base_account.gif_list.push(item);
         base_account.total_gifs += 1;
+        Ok(())
+    }
+
+    pub fn vote(ctx: Context<Vote>, gif_id: String) -> Result<()> {
+        let base_account = &mut ctx.accounts.base_account;
+
+        let gif_iter = &mut base_account.gif_list.iter_mut();
+        gif_iter
+            .find(|item| item.gif_link == gif_id)
+            .map(|found| found.votes += 1);
+
         Ok(())
     }
 }
@@ -43,10 +55,19 @@ pub struct AddGif<'info> {
     pub user: Signer<'info>,
 }
 
+#[derive(Accounts)]
+pub struct Vote<'info> {
+    #[account(mut)]
+    pub base_account: Account<'info, BaseAccount>,
+    #[account(mut)]
+    pub user: Signer<'info>,
+}
+
 #[derive(Debug, Clone, AnchorSerialize, AnchorDeserialize)]
 pub struct ItemStruct {
     pub gif_link: String,
     pub user_address: Pubkey,
+    pub votes: u64,
 }
 
 #[account]

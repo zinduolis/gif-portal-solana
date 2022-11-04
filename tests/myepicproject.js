@@ -33,6 +33,16 @@ const main = async () => {
 
   account = await program.account.baseAccount.fetch(baseAccount.publicKey);
   console.log('👀 GIF Count', account.totalGifs.toString());
+  console.log('👀 GIF List', account.gifList);
+
+  await program.rpc.vote("https://media1.giphy.com/media/l3fQbSe8heZeznfAk/200.webp?cid=ecf05e47unk0xpc9qco8gul9py9tqwxznj7p33oaha75h5zb&rid=200.webp&ct=g", {
+    accounts: {
+      baseAccount: baseAccount.publicKey,
+      user: provider.wallet.publicKey,
+    },
+  });
+
+  account = await program.account.baseAccount.fetch(baseAccount.publicKey);
 
   console.log('👀 GIF List', account.gifList);
 }

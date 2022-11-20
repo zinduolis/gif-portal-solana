@@ -3,3 +3,5 @@ node_modules
 .env
 misc.md
 target/
+test-ledger
+.anchor
